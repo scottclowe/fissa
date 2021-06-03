@@ -37,7 +37,7 @@ jobs:
           - os: ubuntu-latest
             python-version: "3.6"
             use-conda: "True"
-            test-suite2p: "True"
+            test_suite2p: "True"
             conda-env-file: ".binder/environment.yml"
           - os: windows-latest
             python-version: "3.9"
@@ -126,7 +126,7 @@ jobs:
       run: rm examples/*SIMA*;
 
     - name: "Notebooks: Remove Suite2p notebooks"
-      if: ${{ env.test_suite2p != 'True' }}
+      if: ${{ matrix.test_suite2p != 'True' }}
       run: rm examples/*Suite2p*;
 
     - name: "Notebooks: Install dependencies"
