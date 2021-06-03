@@ -31,17 +31,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-version: ["2.7", "3.5", "3.9"]
+        use-conda: ["True"]
+        python-version: ["2.7", "3.5", "3.6", "3.7", "3.9"]
         include:
-          - os: ubuntu-latest
-            python-version: "3.5"
-            use-conda: "True"
-          - os: ubuntu-latest
-            python-version: "3.6"
-            use-conda: "True"
-          - os: ubuntu-latest
-            python-version: "3.7"
-            use-conda: "True"
           - os: ubuntu-latest
             python-version: "3.6"
             use-conda: "True"
