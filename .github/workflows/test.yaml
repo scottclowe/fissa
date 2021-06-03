@@ -23,7 +23,7 @@ on:
 
 defaults:
   run:
-    shell: bash
+    shell: bash -l {0}
 
 jobs:
   test:
@@ -42,7 +42,24 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Cache conda
+      if: ${{ matrix.use-conda == 'True' }}
+      uses: actions/cache@v2
+      with:
+        path: ~/conda_pkgs_dir
+        key: ${{ runner.os }}_conda_py${{ matrix.python-version }}_${{ hashFiles('.binder/environment.yml') }}
+
+    - name: Set up conda
+      if: ${{ matrix.use-conda == 'True' }}
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: anaconda-client-env
+        environment-file: .binder/environment.yml
+        python-version: ${{ matrix.python-version }}
+        auto-activate-base: false
+
     - name: Set up Python ${{ matrix.python-version }}
+      if: ${{ matrix.use-conda != 'True' }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
@@ -65,8 +82,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{ steps.pip-cache.outputs.dir }}
-        key: ${{ runner.os }}-pip-py${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
-        restore-keys: ${{ runner.os }}-pip-
+        key: ${{ runner.os }}_pip_py${{ matrix.python-version }}_conda-${{ matrix.use-conda }}_${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: ${{ runner.os }}_pip_
 
     - name: Install dependencies
       run: |
@@ -82,7 +99,13 @@ jobs:
         python -m flake8 . --count --exit-zero --statistics
 
     - name: Debug environment
-      run: python -m pip freeze
+      run: |
+        which conda
+        conda info -a  || echo "No conda"
+        conda env export | cat || echo "No conda"
+        which python
+        python --version
+        python -m pip freeze
 
     - name: Test with pytest
       run: |
