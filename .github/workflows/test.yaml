@@ -37,6 +37,7 @@ jobs:
           - os: ubuntu-latest
             python-version: "3.6"
             use-conda: "True"
+            test-suite2p: "True"
             conda-env-file: ".binder/environment.yml"
           - os: windows-latest
             python-version: "3.9"
