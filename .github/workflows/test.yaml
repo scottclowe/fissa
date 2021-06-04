@@ -110,11 +110,17 @@ jobs:
 
     - name: Debug environment
       run: |
+        echo "which conda:"
         which conda
+        echo "conda info:"
         conda info -a  || echo "No conda"
+        echo "conda env export:"
         conda env export | cat || echo "No conda"
+        echo "which python:"
         which python
+        echo "python version:"
         python --version
+        echo "pip freeze:"
         python -m pip freeze
 
     - name: Test with pytest
