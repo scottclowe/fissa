@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.7.0
+    rev: v1.9.0
     hooks:
       - id: python-check-blanket-noqa
       - id: python-no-log-warn
@@ -16,12 +16,12 @@ repos:
       - id: nbstripout
 
   - repo: https://github.com/dfm/black_nbconvert
-    rev: dcd7789
+    rev: v0.2.0
     hooks:
       - id: black_nbconvert
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.3.0
+    rev: v4.0.1
     hooks:
       - id: check-added-large-files
       - id: check-builtin-literals
